@@ -1,0 +1,73 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+	// Container definition for deeplearning development environment
+	// Based on NVIDIA's official TensorFlow 24.06 image with GPU support
+	// See here: https://hub.docker.com/r/gperdrizet/deeplearning-gpu
+    // And here: https://docs.nvidia.com/deeplearning/frameworks/tensorflow-release-notes/rel-24-06.html
+	"name": "DeepLearning GPU",
+	"image": "gperdrizet/deeplearning-gpu",
+    "runArgs": [
+		"--gpus", "all",              // Enable all available GPUs in the container
+		"--ipc=host",                 // Connect to host interprocess namespace
+		"--ulimit", "memlock=-1",     // Turn of memory lock limit
+		"--ulimit", "stack=67108864", // Increase process stack limit to 64 MB
+		"--publish", "6006:6006",     // Map TensorBoard port for easy access
+		"--network=bridge"            // Explicitly use bridge network for internet access
+	],
+	"remoteUser": "vscode",           // Use the 'vscode' user provided by the base image
+	"containerEnv": {
+		"TF_CPP_MIN_LOG_LEVEL": "1"   // Suppress TensorFlow INFO logs for cleaner output
+  	},
+
+	// Custom configuration options
+	"customizations": {
+
+	  // Configure VS code settings and extensions
+	  "vscode": {
+
+		// Use 'settings' to set default VS code values on container create
+		"settings": {
+			// Set the default Python interpreter
+			"python.defaultInterpreterPath": "/usr/bin/python",
+			
+			// Exclude other Python versions from Jupyter kernel list
+			// Prevents confusion by hiding system Python versions we don't want to use
+			"jupyter.kernels.excludePythonEnvironments": [
+				"/bin/python",
+				"/bin/python3",
+				"/bin/python3.10",
+				"/usr/bin/python3",
+				"/usr/bin/python3.10"
+			],
+			
+			// Disable automatic port forwarding to give explicit control
+			"remote.autoForwardPorts": false,
+			"remote.restoreForwardedPorts": false,
+
+			// Auto-close the Configuring terminal when setup completes successfully
+			"terminal.integrated.enablePersistentSessions": false
+		},
+
+		// Add the IDs of VS code extensions you want to install here
+		// These extensions provide Python development, documentation, and project management support
+		"extensions": [
+		  "-dbaeumer.vscode-eslint",                // Explicitly exclude ESLint (not needed for Python projects)
+		  "ms-python.python",                       // Core Python language support, IntelliSense, debugging
+		  "ms-toolsai.jupyter",                     // Jupyter notebook support for interactive data science
+		  "streetsidesoftware.code-spell-checker",  // Spell checking for code and documentation
+		  "ms-toolsai.tensorboard"                  // TensorBoard extension
+		]
+	  }
+	},
+
+	// Use 'onCreateCommand' to run commands once when the container is created
+	// This runs only on initial container creation, not on subsequent starts/attaches
+	"onCreateCommand": "",
+
+	// Use 'postCreateCommand' to run commands once after the container is created
+	"postCreateCommand": "mkdir -p logs && mkdir -p models && mkdir -p data",
+
+	// Use 'postAttachCommand' to run TensorBoard
+	"postAttachCommand": ""
+}
