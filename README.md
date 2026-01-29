@@ -1,19 +1,19 @@
-# Deep learning GPU development environment
+# TensorFlow GPU development environment
 
-A ready-to-use deep learning environment with NVIDIA GPU support for VS Code. Includes both **PyTorch** and **TensorFlow** frameworks. Designed for cross-platform support and wide GPU compatibility.
+A ready-to-use TensorFlow environment with NVIDIA GPU support for VS Code. Designed for cross-platform support and wide GPU compatibility.
 
 ## What's included
 
 | Category | Versions |
 |----------|----------|
 | **GPU** | CUDA 12.5, cuDNN 9.1 |
-| **ML** | PyTorch 2.10, TensorFlow 2.16, Keras 3.3, Scikit-learn 1.4 |
+| **ML** | TensorFlow 2.16, Keras 3.3, Scikit-learn 1.4 |
 | **Python** | Python 3.10, NumPy 1.24, Pandas 2.2, Matplotlib 3.10 |
 | **Tools** | JupyterLab, TensorBoard |
 
 Based on [NVIDIA's TensorFlow 24.06 container](https://docs.nvidia.com/deeplearning/frameworks/tensorflow-release-notes/rel-24-06.html).
 
-> **No NVIDIA GPU?** Use the CPU version instead: [gperdrizet/deeplearning-CPU](https://github.com/gperdrizet/deeplearning-CPU)
+> **No NVIDIA GPU?** Use the CPU version instead: [gperdrizet/tensorflow-CPU](https://github.com/gperdrizet/tensorflow-CPU)
 
 ## Project structure
 
@@ -73,17 +73,21 @@ Check your GPU's compute capability: [NVIDIA CUDA GPUs](https://developer.nvidia
 
 5. **Verify** by running `notebooks/environment_test.ipynb`
 
-## TensorBoard
+## Using as a template for new projects
 
-To launch TensorBoard:
+You can use your fork as a starting point for new TensorFlow projects by setting it up as a GitHub template repository:
 
-1. Open the command palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
-2. Run **Python: Launch TensorBoard**
-3. Select the `logs/` directory when prompted
+1. **Go to your fork** on GitHub
 
-TensorBoard will open in a new tab within VS Code. Place your training logs in the `logs/` directory.
+2. **Open Settings** → **General**
 
-## Adding Python rackages
+3. **Check** "Template repository" under the repository name
+
+4. **Create new projects** by clicking "Use this template" → "Create a new repository" from your fork's main page
+
+This creates a fresh repository with all the dev container configuration, without copying the git history.
+
+## Adding Python packages
 
 ### Using pip directly
 
@@ -102,7 +106,6 @@ For persistent packages that survive container rebuilds:
 1. **Create** a `requirements.txt` file in the repository root:
    ```
    scikit-image==0.22.0
-   seaborn>=0.13.0
    plotly
    ```
 
@@ -115,41 +118,15 @@ For persistent packages that survive container rebuilds:
 
 Now your packages will be automatically installed whenever the container is created.
 
-## Using as a template for new projects
+## TensorBoard
 
-You can use your fork as a starting point for new deep learning projects:
+To launch TensorBoard:
 
-1. **Clone** your fork:
-   ```bash
-   git clone https://github.com/<your-username>/tensorflow-GPU.git
-   ```
+1. Open the command palette (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+2. Run **Python: Launch TensorBoard**
+3. Select the `logs/` directory when prompted
 
-2. **Rename** the directory to your new project name:
-   ```bash
-   mv tensorflow-GPU my-new-project
-   cd my-new-project
-   ```
-
-3. **Create a new repository** on GitHub for your project (don't initialize with README)
-
-4. **Update the git remote** to point to your new repository:
-   ```bash
-   git remote set-url origin https://github.com/<your-username>/my-new-project.git
-   ```
-
-5. **Push** to your new repository:
-   ```bash
-   git push -u origin main
-   ```
-
-6. **Clean up** (optional): Remove the example notebooks, then add your own code:
-   ```bash
-   rm -rf notebooks/*.ipynb
-   git add -A && git commit -m "Initial project setup"
-   git push
-   ```
-
-Now you have a fresh deep learning GPU project with the dev container configuration ready to go!
+TensorBoard will open in a new tab within VS Code. Place your training logs in the `logs/` directory.
 
 ## Keeping your fork updated
 
@@ -161,13 +138,4 @@ git remote add upstream https://github.com/gperdrizet/tensorflow-GPU.git
 git fetch upstream
 git merge upstream/main
 ```
-
-## Troubleshooting
-
-| Problem | Solution |
-|---------|----------|
-| Docker won't start | Enable virtualization in BIOS |
-| Permission denied (Linux) | Add user to docker group, then log out/in |
-| GPU not detected | Update NVIDIA drivers (≥545) |
-| Container build fails | Check internet connection |
 
