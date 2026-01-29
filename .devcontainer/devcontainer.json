@@ -1,12 +1,12 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-	// Container definition for deeplearning development environment
+	// Container definition for TensorFlow 2.16 GPU development environment
 	// Based on NVIDIA's official TensorFlow 24.06 image with GPU support
 	// See here: https://hub.docker.com/r/gperdrizet/deeplearning-gpu
     // And here: https://docs.nvidia.com/deeplearning/frameworks/tensorflow-release-notes/rel-24-06.html
-	"name": "DeepLearning GPU",
-	"image": "gperdrizet/deeplearning-gpu",
+	"name": "TensorFlow 2.16 GPU",
+	"image": "gperdrizet/tensorflow-gpu",
     "runArgs": [
 		"--gpus", "all",              // Enable all available GPUs in the container
 		"--ipc=host",                 // Connect to host interprocess namespace
